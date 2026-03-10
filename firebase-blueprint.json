@@ -1,0 +1,41 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "Informasi profil pengguna dan status premium",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "ID unik pengguna dari Firebase Auth" },
+        "email": { "type": "string", "description": "Email pengguna" },
+        "displayName": { "type": "string", "description": "Nama tampilan pengguna" },
+        "isPremium": { "type": "boolean", "description": "Apakah pengguna memiliki status premium" },
+        "premiumPlan": { "type": "string", "description": "Nama paket premium (misal: 4Kaa AI Pro Flash)" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Waktu pembuatan akun" }
+      },
+      "required": ["uid", "email", "isPremium"]
+    },
+    "PaymentRequest": {
+      "title": "Payment Request",
+      "description": "Permintaan aktivasi premium dari pengguna",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "ID pengguna yang meminta" },
+        "userEmail": { "type": "string", "description": "Email pengguna" },
+        "plan": { "type": "string", "description": "Paket yang dibeli" },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected"], "description": "Status pembayaran" },
+        "timestamp": { "type": "string", "format": "date-time", "description": "Waktu permintaan" }
+      },
+      "required": ["userId", "userEmail", "plan", "status"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Data profil pengguna"
+    },
+    "/payments/{paymentId}": {
+      "schema": "PaymentRequest",
+      "description": "Log permintaan pembayaran untuk developer"
+    }
+  }
+}
